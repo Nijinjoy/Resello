@@ -7,70 +7,28 @@ import {
   Text,
   View,
 } from 'react-native';
-import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import { Logo } from '../components/Logo';
+import { colors } from '../theme/colors';
+import { fonts } from '../theme/typography';
 
-const colors = {
-  primary: '#0E5E4E',
-  primaryDark: '#0A4539',
-  primaryLight: '#1C7A66',
-  accent: '#D9A94A',
-  sand: '#F6EFE2',
-  white: '#FFFFFF',
+// Gap between the logo and the wordmark (also used to centre the logo).
+const WORDMARK_GAP = 10;
+// Close estimate of the wordmark block height, replaced by the measured value
+// after the first layout.
+const ESTIMATED_WORDMARK_HEIGHT = 72;
+
+type SplashScreenProps = {
+  onFinish?: () => void;
 };
 
-const LOGO_SIZE = 120;
-
-type LogoProps = {
-  size?: number;
-  spin?: Animated.Value;
-};
-
-function Logo({ size = LOGO_SIZE, spin }: LogoProps) {
-  const rotate = spin
-    ? spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] })
-    : '0deg';
-
-  return (
-    <View style={{ width: size, height: size }}>
-      <Svg width={size} height={size} viewBox="0 0 120 120">
-        <Rect width={120} height={120} rx={33.6} fill={colors.white} />
-        <Path
-          d="M51 49 V73 M51 59 Q54 49 67 49"
-          fill="none"
-          stroke={colors.primary}
-          strokeWidth={10}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <Circle cx={96} cy={24} r={7.2} fill={colors.accent} />
-      </Svg>
-      <Animated.View
-        style={[StyleSheet.absoluteFill, { transform: [{ rotate }] }]}
-      >
-        <Svg width={size} height={size} viewBox="0 0 120 120">
-          <Path
-            d="M87.577 87.577 A39 39 0 0 1 32.423 32.423"
-            fill="none"
-            stroke={colors.primary}
-            strokeWidth={8.4}
-          />
-          <Path
-            d="M32.423 32.423 A39 39 0 0 1 87.577 32.423"
-            fill="none"
-            stroke={colors.accent}
-            strokeWidth={8.4}
-          />
-        </Svg>
-      </Animated.View>
-    </View>
-  );
-}
-
-export function SplashScreen() {
+export function SplashScreen({ onFinish }: SplashScreenProps) {
   // Lazy initializers create each Animated.Value once instead of on every render.
   const [spin] = useState(() => new Animated.Value(0));
   const [textOpacity] = useState(() => new Animated.Value(0));
   const [footerOpacity] = useState(() => new Animated.Value(0));
+  const [wordmarkHeight, setWordmarkHeight] = useState(
+    ESTIMATED_WORDMARK_HEIGHT,
+  );
 
   // Derived values: driven by the timings above, so they need no animations of their own.
   const backdropOpacity = spin.interpolate({
@@ -78,9 +36,12 @@ export function SplashScreen() {
     outputRange: [0, 1],
     extrapolate: 'clamp',
   });
-  const textOffset = textOpacity.interpolate({
+  // Logo and wordmark move as one group: it starts shifted down so the logo
+  // sits exactly where the native splash logo was, then rises into place as
+  // the wordmark fades in.
+  const brandOffset = textOpacity.interpolate({
     inputRange: [0, 1],
-    outputRange: [12, 0],
+    outputRange: [(wordmarkHeight + WORDMARK_GAP) / 2, 0],
   });
 
   useEffect(() => {
@@ -107,9 +68,13 @@ export function SplashScreen() {
       ]),
     ]);
 
-    animation.start();
+    animation.start(({ finished }) => {
+      if (finished) {
+        onFinish?.();
+      }
+    });
     return () => animation.stop();
-  }, [footerOpacity, spin, textOpacity]);
+  }, [footerOpacity, onFinish, spin, textOpacity]);
 
   return (
     <View style={styles.container}>
@@ -122,19 +87,19 @@ export function SplashScreen() {
         <View style={[styles.glow, styles.glowBottom]} />
       </Animated.View>
 
-      <View style={styles.brand}>
+      <Animated.View
+        style={[styles.brand, { transform: [{ translateY: brandOffset }] }]}
+      >
         <Logo spin={spin} />
 
         <Animated.View
-          style={[
-            styles.wordmarkGroup,
-            { opacity: textOpacity, transform: [{ translateY: textOffset }] },
-          ]}
+          style={[styles.wordmarkGroup, { opacity: textOpacity }]}
+          onLayout={event => setWordmarkHeight(event.nativeEvent.layout.height)}
         >
           <Text style={styles.wordmark}>Resello</Text>
           <Text style={styles.caption}>Resell. Rediscover.</Text>
         </Animated.View>
-      </View>
+      </Animated.View>
 
       <Animated.View style={[styles.footer, { opacity: footerOpacity }]}>
         <Text style={styles.region}>🇦🇪 Made for the UAE</Text>
@@ -173,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   wordmarkGroup: {
-    marginTop: 10,
+    marginTop: WORDMARK_GAP,
     alignItems: 'center',
   },
   wordmark: {
@@ -186,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 32,
     fontSize: 15,
-    fontWeight: '600',
+    fontFamily: fonts.semiBold,
     color: colors.accent,
     textAlign: 'center',
     letterSpacing: 2,
@@ -199,6 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   region: {
+    fontFamily: fonts.medium,
     fontSize: 12,
     color: colors.sand,
     opacity: 0.6,

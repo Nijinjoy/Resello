@@ -1,5 +1,6 @@
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { fonts } from '../theme/typography';
 
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 16,
     fontSize: 28,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
     color: '#111111',
   },
 });
