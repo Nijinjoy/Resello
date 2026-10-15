@@ -1,0 +1,35 @@
+Home banner photos (assets/banners) are from Unsplash, used under the
+Unsplash License (free for commercial use, no attribution required):
+https://unsplash.com/license
+
+sell.jpg        https://images.unsplash.com/photo-1512436991641-6745cdb1723f
+protection.jpg  https://images.unsplash.com/photo-1472851294608-062f824d29cc
+nearby.jpg      https://images.unsplash.com/photo-1555041469-a586c61ea9bc
+
+Listing photos (assets/listings), same source and license:
+
+macbook.jpg       https://images.unsplash.com/photo-1541807084-5c52b6b3adef
+armchair.jpg      https://images.unsplash.com/photo-1567538096630-e0c55bd6374c
+switch.jpg        https://images.unsplash.com/photo-1578303512597-81e6cc155b3e
+galaxy.jpg        https://images.unsplash.com/photo-1610945265064-0e34e5519bbf
+coat.jpg          https://images.unsplash.com/photo-1539533018447-63fcce2678e3
+balance-bike.jpg  https://unsplash.com/photos/Vbzx-yy5FoA
+high-chair.jpg    https://unsplash.com/photos/_aUa2xm_iIg
+headphones.jpg    https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb
+
+My listings photos (assets/my-listings), same source and license:
+
+iphone.jpg      https://images.unsplash.com/photo-1511707171634-5f897ff02aa9
+road-bike.jpg   https://images.unsplash.com/photo-1532298229144-0ec0c57515c7
+armchair.jpg    https://images.unsplash.com/photo-1586023492125-27b2c045efd7
+jacket.jpg      https://images.unsplash.com/photo-1591047139829-d91aecb6caea
+comics.jpg      https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe
+headphones.jpg  https://images.unsplash.com/photo-1505740420928-5e560c06d30e
+
+Purchases photos (assets/purchases), same source and license:
+
+toy-train.jpg     https://images.unsplash.com/photo-1596461404969-9ae70f2830c1
+sneakers.jpg      https://images.unsplash.com/photo-1603787081207-362bcef7c144
+backpack.jpg      https://images.unsplash.com/photo-1622260614153-03223fb72052
+earbuds.jpg       https://unsplash.com/photos/Kf2kr_BhaTk
+accent-chair.jpg  https://unsplash.com/photos/1JJJIHh7-Mk

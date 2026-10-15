@@ -33,8 +33,12 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Resello uses your camera to take photos of items you sell.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Resello uses your photo library so you can add photos of items you sell.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>Resello uses your location to show items and sellers near you.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -57,10 +61,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>KronaOne-Regular.ttf</string>
-		<string>Outfit-Bold.ttf</string>
-		<string>Outfit-Regular.ttf</string>
-		<string>Outfit-SemiBold.ttf</string>
-		<string>Outfit-Medium.ttf</string>
+		<string>PlusJakartaSans-Medium.ttf</string>
+		<string>PlusJakartaSans-SemiBold.ttf</string>
+		<string>PlusJakartaSans-Regular.ttf</string>
+		<string>PlusJakartaSans-Bold.ttf</string>
 	</array>
 </dict>
 </plist>
