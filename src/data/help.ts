@@ -29,7 +29,7 @@ export const FAQS: Faq[] = [
     topic: 'buying',
     question: 'What is buyer protection?',
     answer:
-      'Every order paid through Resello checkout is covered. If an item doesn’t arrive, or is significantly different from its description, report it within 48 hours of delivery or pickup and we’ll refund the item price and protection fee.',
+      'Every order paid through Resello checkout is covered. If an item doesn’t arrive, or is significantly different from its description, report it within 48 hours of delivery or pickup and we’ll refund what you paid. It’s included at no extra cost.',
   },
   {
     id: 'b3',
@@ -78,7 +78,7 @@ export const FAQS: Faq[] = [
     topic: 'payments',
     question: 'What fees do I pay?',
     answer:
-      'Buyers pay a buyer protection fee of 2.5% of the item price plus a flat AED 10 platform fee per order, shown before checkout. Listing items is free for sellers.',
+      'Buyers pay a flat AED 2 platform fee per order, shown before checkout; buyer protection is included. Listing items is free for sellers.',
   },
   {
     id: 'p2',

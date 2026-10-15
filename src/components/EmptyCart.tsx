@@ -1,8 +1,6 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import { colors } from '../theme/colors';
-import { fonts } from '../theme/typography';
-import { PrimaryButton, SecondaryButton } from './Button';
+import { EmptyState } from './EmptyState';
 
 const STEPS = [
   { title: 'Find a deal', body: 'Browse pre-loved items near you.' },
@@ -28,42 +26,21 @@ export function EmptyCart({
   onFavorites,
 }: EmptyCartProps) {
   return (
-    <ScrollView
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      <EmptyBagIllustration />
-      <Text style={styles.title} accessibilityRole="header">
-        Your cart is empty
-      </Text>
-      <Text style={styles.body}>
-        Pre-loved finds you add will wait for you here.
-      </Text>
-
-      <View style={styles.steps}>
-        {STEPS.map((step, index) => (
-          <View key={step.title} style={styles.step}>
-            <View style={styles.stepNumber}>
-              <Text style={styles.stepNumberText}>{index + 1}</Text>
-            </View>
-            <View style={styles.stepBody}>
-              <Text style={styles.stepTitle}>{step.title}</Text>
-              <Text style={styles.stepText}>{step.body}</Text>
-            </View>
-          </View>
-        ))}
-      </View>
-
-      <View style={styles.actions}>
-        <PrimaryButton label="Start exploring" onPress={onExplore} />
-        {favoritesCount > 0 && (
-          <SecondaryButton
-            label={`View saved items (${favoritesCount})`}
-            onPress={onFavorites}
-          />
-        )}
-      </View>
-    </ScrollView>
+    <EmptyState
+      illustration={<EmptyBagIllustration />}
+      title="Your cart is empty"
+      body="Pre-loved finds you add will wait for you here."
+      steps={STEPS}
+      primaryAction={{ label: 'Start exploring', onPress: onExplore }}
+      secondaryAction={
+        favoritesCount > 0
+          ? {
+              label: `View saved items (${favoritesCount})`,
+              onPress: onFavorites,
+            }
+          : undefined
+      }
+    />
   );
 }
 
@@ -124,72 +101,3 @@ function EmptyBagIllustration() {
     </Svg>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 12,
-    paddingBottom: 32,
-  },
-  title: {
-    marginTop: 8,
-    fontSize: 22,
-    fontFamily: fonts.bold,
-    color: colors.charcoal,
-  },
-  body: {
-    marginTop: 6,
-    fontSize: 15,
-    fontFamily: fonts.regular,
-    color: colors.textMuted,
-    textAlign: 'center',
-  },
-  steps: {
-    alignSelf: 'stretch',
-    marginTop: 24,
-    padding: 16,
-    gap: 14,
-    borderRadius: 18,
-    backgroundColor: colors.offWhite,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.beige,
-  },
-  step: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  stepNumber: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.primary,
-  },
-  stepNumberText: {
-    fontSize: 14,
-    fontFamily: fonts.bold,
-    color: colors.white,
-  },
-  stepBody: {
-    flex: 1,
-  },
-  stepTitle: {
-    fontSize: 15,
-    fontFamily: fonts.semiBold,
-    color: colors.ink,
-  },
-  stepText: {
-    fontSize: 13,
-    fontFamily: fonts.regular,
-    color: colors.textMuted,
-  },
-  actions: {
-    alignSelf: 'stretch',
-    marginTop: 24,
-    gap: 4,
-  },
-});

@@ -57,8 +57,6 @@ export const initialCart: CartItem[] = [
   },
 ];
 
-// Buyer protection covers the order if an item isn't as described.
-export const BUYER_PROTECTION_RATE = 0.025;
-
-// Flat Resello fee per order, in whole dirhams.
-export const PLATFORM_FEE = 10;
+// Flat Resello fee per order, in whole dirhams. It's the only fee buyers
+// pay; buyer protection is included.
+export const PLATFORM_FEE = 2;

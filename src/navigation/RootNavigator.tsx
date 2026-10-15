@@ -138,7 +138,14 @@ export function RootNavigator() {
           <CartProvider>
             <Stack.Navigator
               initialRouteName="Splash"
-              screenOptions={{ headerShown: false }}
+              screenOptions={{
+                headerShown: false,
+                // Android's default push cross-fades the two screens, so the
+                // old one shows through the new one. Slide instead, over a
+                // solid background.
+                animation: 'slide_from_right',
+                contentStyle: { backgroundColor: colors.white },
+              }}
             >
               <Stack.Screen name="Splash" component={SplashRoute} />
               <Stack.Screen

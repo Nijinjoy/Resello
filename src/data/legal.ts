@@ -43,14 +43,14 @@ export const TERMS: LegalSection[] = [
     title: 'Buying on Resello',
     paragraphs: [
       'Read the listing carefully and ask the seller questions in chat before you buy. Prices are in UAE dirhams (AED) and are set by sellers.',
-      'When you check out, you pay the item price plus a buyer protection fee and a flat platform fee, shown before you confirm.',
+      'When you check out, you pay the item price plus a small flat platform fee per order, shown before you confirm. Buyer protection is included at no extra cost.',
     ],
   },
   {
     id: 't5',
     title: 'Buyer protection',
     paragraphs: [
-      'If an item doesn’t arrive, or is significantly different from its description, report it within 48 hours of delivery or pickup. If the claim is accepted, we refund the item price and buyer protection fee.',
+      'If an item doesn’t arrive, or is significantly different from its description, report it within 48 hours of delivery or pickup. If the claim is accepted, we refund the item price and platform fee.',
       'Buyer protection only covers purchases paid through Resello checkout. Payments made outside the app aren’t covered.',
     ],
   },

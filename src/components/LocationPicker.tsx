@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   FlatList,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -50,6 +51,9 @@ export function LocationPicker({
   onClose,
 }: LocationPickerProps) {
   const insets = useSafeAreaInsets();
+  // Android ignores pageSheet and draws the modal edge to edge, under the
+  // status bar; iOS sheets already start below it.
+  const topInset = Platform.OS === 'android' ? insets.top : 0;
   const [query, setQuery] = useState('');
   const [search, setSearch] = useState<SearchState>({ status: 'idle' });
   const [choosing, setChoosing] = useState<string>();
@@ -112,7 +116,15 @@ export function LocationPicker({
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <View style={[styles.container, { paddingBottom: insets.bottom }]}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: topInset,
+            paddingBottom: insets.bottom,
+          },
+        ]}
+      >
         <View style={styles.header}>
           <Text style={styles.title} accessibilityRole="header">
             Pickup location

@@ -321,12 +321,10 @@ test('Cart tab groups by seller, totals, and undoes removal', async () => {
   expect(hasText("1 item sold out and isn't included in your total.")).toBe(
     true,
   );
-  // 2,100 + 1,450 + 1,800 = 5,350, plus 2.5% buyer protection (134)
-  // and the AED 10 platform fee.
+  // 2,100 + 1,450 + 1,800 = 5,350, plus the AED 2 platform fee.
   expect(hasText('AED 5,350')).toBe(true);
-  expect(hasText('AED 134')).toBe(true);
-  expect(hasText('AED 10')).toBe(true);
-  expect(hasText('AED 5,494')).toBe(true);
+  expect(hasText('AED 2')).toBe(true);
+  expect(hasText('AED 5,352')).toBe(true);
   expect(hasText('Checkout (3)')).toBe(true);
 
   await pressLabel('Remove iPhone 13 Pro, 256GB');
@@ -733,7 +731,8 @@ test('Favorites lists saved items and empties when unsaved', async () => {
 
   await pressLabel('Favorites');
   expect(hasText('No favorites yet')).toBe(true);
-  await pressButton('Explore items');
+  expect(hasText('Tap the heart')).toBe(true);
+  await pressButton('Start exploring');
 
   await ReactTestRenderer.act(async () => {
     renderer!.root
@@ -835,7 +834,7 @@ test('Help & support filters and expands FAQs', async () => {
     renderer!.root.findAll(
       node =>
         typeof node.props.children === 'string' &&
-        node.props.children.includes('flat AED 10 platform fee'),
+        node.props.children.includes('flat AED 2 platform fee'),
     ).length,
   ).toBeGreaterThan(0);
 

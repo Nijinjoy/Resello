@@ -6,8 +6,8 @@ import {
   View,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import Svg, { Path } from 'react-native-svg';
-import { PrimaryButton } from '../components/Button';
+import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
+import { EmptyState } from '../components/EmptyState';
 import { ListingCard } from '../components/ListingCard';
 import { listings } from '../data/listings';
 import type { RootStackParamList } from '../navigation/RootNavigator';
@@ -17,6 +17,18 @@ import { fonts } from '../theme/typography';
 
 const SCREEN_PADDING = 16;
 const GRID_GAP = 12;
+
+const STEPS = [
+  {
+    title: 'Tap the heart',
+    body: 'On any item in Home, Explore, or its details.',
+  },
+  { title: 'Find it here', body: 'Everything you save, newest first.' },
+  {
+    title: 'Decide when you’re ready',
+    body: 'Chat with the seller or add it to your cart.',
+  },
+];
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Favorites'>;
 
@@ -32,6 +44,28 @@ export function FavoritesScreen({ navigation }: Props) {
     .map(id => listings.find(listing => listing.id === id))
     .filter(listing => listing !== undefined);
 
+  if (saved.length === 0) {
+    return (
+      <View style={[styles.container, styles.emptyContainer]}>
+        <EmptyState
+          illustration={<EmptyHeartIllustration />}
+          title="No favorites yet"
+          body="Save items you love and come back to them any time."
+          steps={STEPS}
+          primaryAction={{
+            label: 'Start exploring',
+            onPress: () =>
+              navigation.popTo(
+                'Dashboard',
+                { screen: 'Explore' },
+                { merge: true },
+              ),
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -42,11 +76,9 @@ export function FavoritesScreen({ navigation }: Props) {
         contentContainerStyle={styles.grid}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
-          saved.length > 0 ? (
-            <Text style={styles.count}>
-              {`${saved.length} saved ${saved.length === 1 ? 'item' : 'items'}`}
-            </Text>
-          ) : undefined
+          <Text style={styles.count}>
+            {`${saved.length} saved ${saved.length === 1 ? 'item' : 'items'}`}
+          </Text>
         }
         renderItem={({ item }) => (
           <ListingCard
@@ -57,37 +89,6 @@ export function FavoritesScreen({ navigation }: Props) {
             }
           />
         )}
-        ListEmptyComponent={
-          <View style={styles.empty}>
-            <View style={styles.emptyIcon}>
-              <Svg width={30} height={30} viewBox="0 0 24 24">
-                <Path
-                  d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"
-                  fill="none"
-                  stroke={colors.primary}
-                  strokeWidth={2}
-                  strokeLinejoin="round"
-                />
-              </Svg>
-            </View>
-            <Text style={styles.emptyTitle}>No favorites yet</Text>
-            <Text style={styles.emptyBody}>
-              Tap the heart on any item to save it here.
-            </Text>
-            <View style={styles.emptyAction}>
-              <PrimaryButton
-                label="Explore items"
-                onPress={() =>
-                  navigation.popTo(
-                    'Dashboard',
-                    { screen: 'Explore' },
-                    { merge: true },
-                  )
-                }
-              />
-            </View>
-          </View>
-        }
       />
     </View>
   );
@@ -112,35 +113,67 @@ const styles = StyleSheet.create({
     fontFamily: fonts.medium,
     color: colors.textMuted,
   },
-  empty: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingHorizontal: 24,
-  },
-  emptyIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    marginBottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.sand,
-  },
-  emptyTitle: {
-    fontSize: 18,
-    fontFamily: fonts.semiBold,
-    color: colors.ink,
-  },
-  emptyBody: {
-    fontSize: 14,
-    fontFamily: fonts.regular,
-    color: colors.textMuted,
-    textAlign: 'center',
-  },
-  emptyAction: {
-    alignSelf: 'stretch',
-    marginTop: 16,
+  emptyContainer: {
+    paddingHorizontal: SCREEN_PADDING,
   },
 });
+
+// A heart with a price tag: things you'd like to buy.
+function EmptyHeartIllustration() {
+  return (
+    <Svg
+      width={180}
+      height={150}
+      viewBox="0 0 180 150"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+    >
+      <Circle cx={90} cy={72} r={64} fill={colors.sand} />
+      <Ellipse cx={90} cy={136} rx={46} ry={6} fill="#EDE3D1" />
+      {/* Heart */}
+      <Path
+        d="M90 124s-42-25-42-58a23 23 0 0 1 42-13 23 23 0 0 1 42 13c0 33-42 58-42 58z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M64 58a12 12 0 0 1 12-10"
+        fill="none"
+        stroke="rgba(255, 255, 255, 0.45)"
+        strokeWidth={5}
+        strokeLinecap="round"
+      />
+      {/* Price tag tucked against the heart */}
+      <Path
+        d="M116 104l10-11h28a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3h-28z"
+        fill={colors.accent}
+        transform="rotate(-24 136 104)"
+      />
+      <Circle
+        cx={126}
+        cy={104}
+        r={2.8}
+        fill={colors.white}
+        transform="rotate(-24 136 104)"
+      />
+      <Rect
+        x={133}
+        y={102}
+        width={16}
+        height={3.5}
+        rx={1.75}
+        fill={colors.primaryDark}
+        opacity={0.45}
+        transform="rotate(-24 136 104)"
+      />
+      {/* Sparkles */}
+      <Path
+        d="M42 34v10M37 39h10"
+        stroke={colors.accent}
+        strokeWidth={2.4}
+        strokeLinecap="round"
+      />
+      <Circle cx={146} cy={40} r={4} fill={colors.beige} />
+      <Circle cx={34} cy={96} r={3} fill={colors.beige} />
+    </Svg>
+  );
+}

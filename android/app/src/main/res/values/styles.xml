@@ -1,6 +1,8 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
+    <!-- Light only: the app has no dark mode, and a DayNight theme gives a
+         dark window background that can flash during screen transitions. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
 

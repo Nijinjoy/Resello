@@ -13,11 +13,7 @@ import Svg, { Path } from 'react-native-svg';
 import { PrimaryButton } from '../components/Button';
 import { CategoryIcon } from '../components/CategoryIcon';
 import { EmptyCart } from '../components/EmptyCart';
-import {
-  BUYER_PROTECTION_RATE,
-  PLATFORM_FEE,
-  type CartItem,
-} from '../data/cart';
+import { PLATFORM_FEE, type CartItem } from '../data/cart';
 import { useCart } from '../state/cart';
 import { useFavorites } from '../state/favorites';
 import { colors } from '../theme/colors';
@@ -76,9 +72,8 @@ export function CartScreen() {
   const groups = groupBySeller(available);
 
   const subtotal = available.reduce((sum, item) => sum + item.price, 0);
-  const protection = Math.round(subtotal * BUYER_PROTECTION_RATE);
   const platformFee = available.length > 0 ? PLATFORM_FEE : 0;
-  const total = subtotal + protection + platformFee;
+  const total = subtotal + platformFee;
 
   const removeItems = (toRemove: CartItem[], label: string) => {
     const ids = new Set(toRemove.map(item => item.id));
@@ -239,13 +234,8 @@ export function CartScreen() {
               value={formatAED(subtotal)}
             />
             <SummaryLine
-              label="Buyer protection"
-              hint={`${BUYER_PROTECTION_RATE * 100}% of item price`}
-              value={formatAED(protection)}
-            />
-            <SummaryLine
               label="Platform fee"
-              hint="Flat fee per order"
+              hint="Per order, buyer protection included"
               value={formatAED(platformFee)}
             />
             <SummaryLine label="Delivery" value="Arranged with seller" muted />
